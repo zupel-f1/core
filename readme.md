@@ -52,6 +52,18 @@ This project is a Flask-based API for managing Formula 1 data, including seasons
      flask db upgrade
      ```
 
+### Running ruff linter
+
+1. **Run ruff to check code style and linting:**
+    ```sh
+    ruff .
+    ```
+
+2. **Run ruff and automatically fix issues:**
+    ```sh
+    ruff . --fix
+    ```
+
 ## License
 
 MIT License
