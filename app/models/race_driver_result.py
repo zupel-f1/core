@@ -1,5 +1,6 @@
 from app.extensions import db
 
+
 class RaceDriverResult(db.Model):
     __tablename__ = 'race_driver_results'
 

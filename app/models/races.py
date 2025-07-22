@@ -1,5 +1,6 @@
 from app.extensions import db
 
+
 class Race(db.Model):
     __tablename__ = 'races'
 
