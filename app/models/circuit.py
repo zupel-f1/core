@@ -1,5 +1,6 @@
 from app.extensions import db
 
+
 class Circuit(db.Model):
     __tablename__ = 'circuits'
     

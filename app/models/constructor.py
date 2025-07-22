@@ -1,5 +1,6 @@
 from app.extensions import db
 
+
 class Constructor(db.Model):
     __tablename__ = 'constructors'
 

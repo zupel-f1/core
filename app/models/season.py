@@ -1,5 +1,6 @@
 from app.extensions import db
 
+
 class Season(db.Model):
     __tablename__ = 'seasons'
 

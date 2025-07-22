@@ -1,5 +1,6 @@
 from app.extensions import db
 
+
 class Driver(db.Model):
     __tablename__ = 'drivers'
 
