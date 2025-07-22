@@ -56,12 +56,12 @@ This project is a Flask-based API for managing Formula 1 data, including seasons
 
 1. **Run ruff to check code style and linting:**
     ```sh
-    ruff .
+    ruff check .
     ```
 
 2. **Run ruff and automatically fix issues:**
     ```sh
-    ruff . --fix
+    ruff check . --fix
     ```
 
 ## License
