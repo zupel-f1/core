@@ -169,4 +169,11 @@ cython_debug/
 
 # End of https://www.toptal.com/developers/gitignore/api/flask
 
+# Docker
 docker
+
+# VS Code
+.vscode
+
+# Ruff
+.ruff_cache
