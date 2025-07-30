@@ -1,4 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "zupel-f1-core"
+version = "0.1.0"
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["."]
+
 [tool.ruff]
 line-length = 88
 extend-select = ["I"]
 target-version = "py312"
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests"
+]
