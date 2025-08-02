@@ -8,6 +8,8 @@ class RaceDriverResult(db.Model):
     race_id = db.Column(db.Integer, db.ForeignKey('races.id'), nullable=False)
     driver_id = db.Column(db.Integer, db.ForeignKey('drivers.id'), nullable=False)
     constructor_id = db.Column(db.Integer, db.ForeignKey('constructors.id'), nullable=False)
+    grid = db.Column(db.Integer, nullable=False)
     position = db.Column(db.Integer, nullable=False)
     points = db.Column(db.Float, nullable=False)
     laps = db.Column(db.Integer, nullable=False)
+    status = db.Column(db.Boolean, nullable=True)
