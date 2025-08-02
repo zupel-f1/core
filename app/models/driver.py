@@ -5,6 +5,7 @@ class Driver(db.Model):
     __tablename__ = 'drivers'
 
     id = db.Column(db.Integer, primary_key=True)
+    external_id = db.Column(db.String(255), nullable=False)
     given_name = db.Column(db.String(255), nullable=False)
     family_name = db.Column(db.String(255), nullable=False)
     nationality = db.Column(db.String(100), nullable=False)
