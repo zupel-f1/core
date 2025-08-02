@@ -1,9 +1,11 @@
 from app.extensions import db
-
+from sqlalchemy import UniqueConstraint
 
 class Race(db.Model):
     __tablename__ = 'races'
-
+    __table_args__ = (
+        UniqueConstraint('season_id', 'round', name='idx_races_on_season_id_and_round'),
+    )
     id = db.Column(db.Integer, primary_key=True)
     season_id = db.Column(db.Integer, db.ForeignKey('seasons.id'), nullable=False)
     circuit_id = db.Column(db.Integer, db.ForeignKey('circuits.id'), nullable=False)
