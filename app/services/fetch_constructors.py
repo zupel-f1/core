@@ -6,11 +6,9 @@ from app.extensions import db
 
 
 def run():
-    app = create_app()
-    with app.app_context():
-        constructors = fetch_constructors_from_jolpica()
-        constructors = transform_constructors_data(constructors)
-        update_database_constructors(constructors)
+    constructors = fetch_constructors_from_jolpica()
+    constructors = transform_constructors_data(constructors)
+    update_database_constructors(constructors)
 
 
 def fetch_constructors_from_jolpica():
@@ -61,4 +59,6 @@ def update_database_constructors(constructors):
 
 
 if __name__ == "__main__":
-    run()
+    app = create_app()
+    with app.app_context():
+        run()
