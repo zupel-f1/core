@@ -52,8 +52,8 @@ def transform_races_data(races):
 def update_database_races(races):
     for race in races:
         existing = db.session.query(Race).filter(
-            Race.season_id == race["season_id"] and Race.circuit_id == race["circuit_id"])
-        if existing.count() == 0:
+            Race.season_id == race["season_id"] and Race.circuit_id == race["circuit_id"]).OneOrNone()
+        if not existing:
             race = Race(
                 season_id=race["season_id"],
                 circuit_id=race["circuit_id"],
@@ -65,12 +65,11 @@ def update_database_races(races):
             )
             db.session.add(race)
             continue
-        for existing_race in existing.all():
-            existing_race.race_name = race["race_name"]
-            existing_race.is_sprint = race["is_sprint"]
-            existing_race.date = race["date"]
-            existing_race.url = race["url"]
-            existing_race.round = race["round"]
+        existing.race_name = race["race_name"]
+        existing.is_sprint = race["is_sprint"]
+        existing.date = race["date"]
+        existing.url = race["url"]
+        existing.round = race["round"]
     db.session.commit()
 
 
