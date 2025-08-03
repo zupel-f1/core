@@ -6,12 +6,12 @@ from app.extensions import db
 
 
 def run():
-    constructors = fetch_constructors_from_jolpica()
-    constructors = transform_constructors_data(constructors)
-    update_database_constructors(constructors)
+    constructors = _fetch_constructors_from_jolpica()
+    constructors = _transform_constructors_data(constructors)
+    _update_database_constructors(constructors)
 
 
-def fetch_constructors_from_jolpica():
+def _fetch_constructors_from_jolpica():
     all_constructors = []
     offset = 0
     limit = MAX_LIMIT
@@ -27,7 +27,7 @@ def fetch_constructors_from_jolpica():
     return all_constructors
 
 
-def transform_constructors_data(constructors):
+def _transform_constructors_data(constructors):
     transformed = []
     for constructor in constructors:
         transformed.append({
@@ -39,7 +39,7 @@ def transform_constructors_data(constructors):
     return transformed
 
 
-def update_database_constructors(constructors):
+def _update_database_constructors(constructors):
     for constructor in constructors:
         existing = db.session.query(Constructor).filter(
             Constructor.external_id == constructor["external_id"]).one_or_none()
