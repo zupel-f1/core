@@ -41,8 +41,7 @@ def _transform_constructors_data(constructors):
 
 def _update_database_constructors(constructors):
     for constructor in constructors:
-        existing = db.session.query(Constructor).filter(
-            Constructor.external_id == constructor["external_id"]).one_or_none()
+        existing = Constructor.query.filter_by(external_id=constructor["external_id"]).one_or_none()
         if not existing:
             constructor = Constructor(
                 external_id=constructor["external_id"],
