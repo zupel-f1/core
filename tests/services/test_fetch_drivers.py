@@ -18,19 +18,6 @@ def sample_driver_data():
         }
     ]
 
-def test_transform_drivers_data(sample_driver_data):
-    transformed = fetch_drivers._transform_drivers_data(sample_driver_data)
-    assert transformed == [{
-        "external_id": "hamilton",
-        "url": "http://example.com/hamilton",
-        "given_name": "Lewis",
-        "family_name": "Hamilton",
-        "nationality": "British",
-        "date_of_birth": "1985-01-07",
-        "code": "HAM",
-        "permanent_number": "44"
-    }]
-
 @patch("app.services.fetch_drivers.fetch_from_jolpica")
 def test_fetch_drivers_from_jolpica(mock_fetch):
     mock_fetch.side_effect = [
@@ -54,6 +41,21 @@ def test_fetch_drivers_from_jolpica(mock_fetch):
     drivers = fetch_drivers._fetch_drivers_from_jolpica()
     assert len(drivers) == 1
     assert drivers[0]["driverId"] == "hamilton"
+
+
+def test_transform_drivers_data(sample_driver_data):
+    transformed = fetch_drivers._transform_drivers_data(sample_driver_data)
+    assert transformed == [{
+        "external_id": "hamilton",
+        "url": "http://example.com/hamilton",
+        "given_name": "Lewis",
+        "family_name": "Hamilton",
+        "nationality": "British",
+        "date_of_birth": "1985-01-07",
+        "code": "HAM",
+        "permanent_number": "44"
+    }]
+
 
 @patch("app.services.fetch_drivers.Driver")
 @patch("app.services.fetch_drivers.db")
