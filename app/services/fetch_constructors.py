@@ -43,16 +43,20 @@ def transform_constructors_data(constructors):
 
 def update_database_constructors(constructors):
     for constructor in constructors:
-        existing = db.session.query(Constructor).filter(Constructor.external_id == constructor["external_id"]).count()
-        if existing > 0:
+        existing = db.session.query(Constructor).filter(Constructor.external_id == constructor["external_id"])
+        if existing.count() == 0:
+            constructor = Constructor(
+                external_id=constructor["external_id"],
+                name=constructor["name"],
+                url=constructor["url"],
+                nationality=constructor["nationality"],
+            )
+            db.session.add(constructor)
             continue
-        constructor = Constructor(
-            external_id=constructor["external_id"],
-            name=constructor["name"],
-            url=constructor["url"],
-            nationality=constructor["nationality"],
-        )
-        db.session.add(constructor)
+        for existing_constructor in existing.all():
+            existing_constructor.name = constructor["name"]
+            existing_constructor.url = constructor["url"]
+            existing_constructor.nationality = constructor["nationality"]
     db.session.commit()
 
 
