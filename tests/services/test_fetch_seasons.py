@@ -17,21 +17,12 @@ def sample_season_data():
     ]
 
 @patch("app.services.fetch_seasons.fetch_from_jolpica")
-def test_fetch_seasons_from_jolpica(mock_fetch):
+def test_fetch_seasons_from_jolpica(mock_fetch,sample_season_data):
     mock_fetch.side_effect = [
         {
             "MRData": {
                 "SeasonTable": {
-                    "Seasons": [
-                        {
-                            "season": "1950",
-                            "url": "https://en.wikipedia.org/wiki/1950_Formula_One_season"
-                        },
-                        {
-                            "season": "1951",
-                            "url": "https://en.wikipedia.org/wiki/1951_Formula_One_season"
-                        }
-                    ]
+                    "Seasons": sample_season_data
                 }
             }
         }
