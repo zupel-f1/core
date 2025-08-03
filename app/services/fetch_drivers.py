@@ -1,3 +1,4 @@
+from app import create_app
 from app.clients.jolpica_client import fetch_from_jolpica
 from app.extensions import db
 from app.models.driver import Driver
@@ -25,6 +26,7 @@ def _fetch_drivers_from_jolpica():
 
 def _transform_drivers_data(drivers):
     transformed = []
+
     for driver in drivers:
         transformed.append({
             "external_id": driver["driverId"],
@@ -32,9 +34,9 @@ def _transform_drivers_data(drivers):
             "given_name": driver["givenName"],
             "family_name": driver["familyName"],
             "nationality": driver["nationality"],
-            "date_of_birth": driver["dateOfBirth"],
-            "code": driver["code"],
-            "permanent_number": driver["permanentNumber"]
+            "date_of_birth": driver.get("dateOfBirth"),
+            "code": driver.get("code"),
+            "permanent_number": driver.get("permanentNumber")
         })
     return transformed
 
@@ -48,8 +50,10 @@ def _update_database_drivers(drivers):
         else:
             driver = Driver(**driver_data)
             db.session.add(driver)
-            
+
         db.session.commit()
 
 if __name__ == "__main__":
-    run()
+    app = create_app()
+    with app.app_context():
+        run()
