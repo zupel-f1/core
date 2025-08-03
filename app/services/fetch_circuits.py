@@ -37,7 +37,7 @@ def _transform_circuits_data(circuits):
     return transformed
 
 def _update_database_circuits(circuits):
-     for circuit_data in circuits:
+    for circuit_data in circuits:
         circuit = db.session.query(Circuit).filter(Circuit.external_id == circuit_data["external_id"]).one_or_none()
         if circuit:
             for key, value in circuit_data.items():
@@ -45,7 +45,7 @@ def _update_database_circuits(circuits):
         else:
             circuit = Circuit(**circuit_data) 
             db.session.add(circuit)
-     db.session.commit()
+    db.session.commit()
 
 if __name__ == "__main__":
     app = create_app()
