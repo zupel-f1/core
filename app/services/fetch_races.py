@@ -9,12 +9,12 @@ from datetime import datetime
 def run():
     app = create_app()
     with app.app_context():
-        races = fetch_races_from_jolpica()
-        races = transform_races_data(races)
-        update_database_races(races)
+        races = _fetch_races_from_jolpica()
+        races = _transform_races_data(races)
+        _update_database_races(races)
 
 
-def fetch_races_from_jolpica():
+def _fetch_races_from_jolpica():
     all_races = []
     offset = 0
     limit = MAX_LIMIT
@@ -30,7 +30,7 @@ def fetch_races_from_jolpica():
     return all_races
 
 
-def transform_races_data(races):
+def _transform_races_data(races):
     transformed = []
     for race in races:
         season_id = db.session.query(Season).filter(Season.external_id == race["season_id"]).first()
@@ -49,7 +49,7 @@ def transform_races_data(races):
     return transformed
 
 
-def update_database_races(races):
+def _update_database_races(races):
     for race in races:
         existing = db.session.query(Race).filter(
             Race.season_id == race["season_id"] and Race.circuit_id == race["circuit_id"]).OneOrNone()
