@@ -1,5 +1,5 @@
 import pytest
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
 
 from app.services import fetch_drivers
 
@@ -58,7 +58,7 @@ def test_fetch_drivers_from_jolpica(mock_fetch):
 @patch("app.services.fetch_drivers.Driver")
 @patch("app.services.fetch_drivers.db")
 def test_update_database_drivers(mock_db, mock_Driver, sample_driver_data):
-    mock_Driver.query.filter_by.return_value.first.return_value = None
+    mock_Driver.query.filter_by.return_value.one_or_none.return_value = None
     drivers = fetch_drivers._transform_drivers_data(sample_driver_data)
     fetch_drivers._update_database_drivers(drivers)
     assert mock_db.session.add.call_count == 1
