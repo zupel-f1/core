@@ -31,13 +31,13 @@ def _fetch_races_from_jolpica():
 def _transform_races_data(races):
     transformed = []
     for race in races:
-        season_id = Season.query.filter_by(external_id = race["season"]).one_or_none()
-        circuit_id = Circuit.query.filter_by(external_id = race["Circuit"]["circuitId"]).one_or_none()
-        if season_id is None or circuit_id is None:
+        season = Season.query.filter_by(external_id = race["season"]).one_or_none()
+        circuit = Circuit.query.filter_by(external_id = race["Circuit"]["circuitId"]).one_or_none()
+        if season is None or circuit is None:
             continue
         transformed.append({
-            "season_id": season_id,
-            "circuit_id": circuit_id,
+            "season_id": season.id,
+            "circuit_id": circuit.id,
             "race_name": race["raceName"],
             "is_sprint": race.get("Sprint") is not None,
             "date": datetime.strptime(race["date"], "%Y-%m-%d").date(),

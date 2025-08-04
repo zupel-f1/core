@@ -3,7 +3,7 @@ from datetime import date
 import pytest
 from unittest.mock import patch
 
-from app import Race
+from app import Race, Season, Circuit
 from app.services import fetch_races
 
 
@@ -111,9 +111,8 @@ def test_fetch_races_from_jolpica(mock_fetch, sample_race_data):
 @patch("app.services.fetch_races.Circuit")
 @patch("app.services.fetch_races.Season")
 def test_transform_constructors_data(mock_season, mock_circuit, sample_race_data):
-
-    mock_season.query.filter_by.return_value.one_or_none.side_effect = [0, 0]
-    mock_circuit.query.filter_by.return_value.one_or_none.side_effect = [0, 1]
+    mock_season.query.filter_by.return_value.one_or_none.side_effect = [Season(id=0), Season(id=0)]
+    mock_circuit.query.filter_by.return_value.one_or_none.side_effect = [Circuit(id=0), Circuit(id=1)]
 
     transformed = fetch_races._transform_races_data(sample_race_data)
     assert transformed == [{
@@ -124,7 +123,7 @@ def test_transform_constructors_data(mock_season, mock_circuit, sample_race_data
         "date": date(2025, 3, 16),
         "url": "https://en.wikipedia.org/wiki/2025_Australian_Grand_Prix",
         "round": "1"
-        },
+    },
         {"season_id": 0,
          "circuit_id": 1,
          "race_name": "Chinese Grand Prix",
@@ -141,17 +140,17 @@ def test_transform_constructors_data(mock_season, mock_circuit, sample_race_data
 @patch("app.services.fetch_races.Race")
 @patch("app.services.fetch_races.db")
 def test_update_database_drivers(mock_db, mock_race, mock_season, mock_circuit, sample_race_data):
-    mock_season.query.filter_by.return_value.one_or_none.side_effect = [0, 0]
-    mock_circuit.query.filter_by.return_value.one_or_none.side_effect = [0, 1]
+    mock_season.query.filter_by.return_value.one_or_none.side_effect = [Season(id=0), Season(id=0)]
+    mock_circuit.query.filter_by.return_value.one_or_none.side_effect = [Circuit(id=0), Circuit(id=1)]
     mock_race.query.filter_by.return_value.filter_by.return_value.one_or_none.side_effect = [None, Race(
-                season_id=0,
-                circuit_id=101,
-                race_name=":)",
-                is_sprint=False,
-                date=date(2005, 10, 3),
-                url="https://www.google.com",
-                round=2,
-            )]
+        season_id=0,
+        circuit_id=101,
+        race_name=":)",
+        is_sprint=False,
+        date=date(2005, 10, 3),
+        url="https://www.google.com",
+        round=2,
+    )]
 
     races = fetch_races._transform_races_data(sample_race_data)
     fetch_races._update_database_races(races)
