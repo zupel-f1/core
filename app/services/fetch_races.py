@@ -7,11 +7,9 @@ from datetime import datetime
 
 
 def run():
-    app = create_app()
-    with app.app_context():
-        races = _fetch_races_from_jolpica()
-        races = _transform_races_data(races)
-        _update_database_races(races)
+    races = _fetch_races_from_jolpica()
+    races = _transform_races_data(races)
+    _update_database_races(races)
 
 
 def _fetch_races_from_jolpica():
@@ -33,8 +31,8 @@ def _fetch_races_from_jolpica():
 def _transform_races_data(races):
     transformed = []
     for race in races:
-        season_id = db.session.query(Season).filter(Season.external_id == race["season_id"]).first()
-        circuit_id = db.session.query(Circuit).filter(Circuit.external_id == race["circuit_id"]).first()
+        season_id = Season.query.filter_by(external_id = race["season"]).one_or_none()
+        circuit_id = Circuit.query.filter_by(external_id = race["Circuit"]["circuitId"]).one_or_none()
         if season_id is None or circuit_id is None:
             continue
         transformed.append({
@@ -45,14 +43,12 @@ def _transform_races_data(races):
             "date": datetime.strptime(race["date"], "%Y-%m-%d").date(),
             "url": race["url"],
             "round": race["round"]})
-
     return transformed
 
 
 def _update_database_races(races):
     for race in races:
-        existing = db.session.query(Race).filter(
-            Race.season_id == race["season_id"] and Race.circuit_id == race["circuit_id"]).OneOrNone()
+        existing = Race.query.filter_by(season_id = race["season_id"]).filter_by(round = race["round"]).one_or_none()
         if not existing:
             race = Race(
                 season_id=race["season_id"],
@@ -65,13 +61,15 @@ def _update_database_races(races):
             )
             db.session.add(race)
             continue
+        existing.circuit_id = race["circuit_id"]
         existing.race_name = race["race_name"]
         existing.is_sprint = race["is_sprint"]
         existing.date = race["date"]
         existing.url = race["url"]
-        existing.round = race["round"]
     db.session.commit()
 
 
 if __name__ == "__main__":
-    run()
+    app = create_app()
+    with app.app_context():
+        run()
