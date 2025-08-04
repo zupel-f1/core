@@ -11,5 +11,5 @@ class Driver(db.Model):
     nationality = db.Column(db.String(100), nullable=False)
     date_of_birth = db.Column(db.Date, nullable=False)
     url = db.Column(db.String(255), nullable=False)
-    code = db.Column(db.String(10), nullable=True, unique=True)
-    permanent_number = db.Column(db.Integer, nullable=True, unique=True)
+    code = db.Column(db.String(10), nullable=True)
+    permanent_number = db.Column(db.Integer, nullable=True)
