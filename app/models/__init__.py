@@ -5,3 +5,4 @@ from .race_driver_result import RaceDriverResult
 from .race import Race
 from .season import Season
 from .driver_standing import DriverStanding
+from .constructor_standing import ConstructorStanding
