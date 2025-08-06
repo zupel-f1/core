@@ -10,5 +10,5 @@ class DriverStanding(db.Model):
     driver_id = db.Column(db.Integer, db.ForeignKey('drivers.id'), nullable=False)
     season_id = db.Column(db.Integer, db.ForeignKey('seasons.id'), nullable=False)
     round = db.Column(db.Integer, nullable=False)
-    points = db.Column(db.Integer, nullable=False)
+    points = db.Column(db.Float, nullable=False)
     position = db.Column(db.Integer, nullable=False)

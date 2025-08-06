@@ -1,8 +1,8 @@
 """Add DriverStanding model
 
-Revision ID: 6986d68b4e94
+Revision ID: 89d5b6d9f975
 Revises: 966a62029755
-Create Date: 2025-08-06 00:45:38.570845
+Create Date: 2025-08-06 18:26:54.651826
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '6986d68b4e94'
+revision = '89d5b6d9f975'
 down_revision = '966a62029755'
 branch_labels = None
 depends_on = None
@@ -23,7 +23,7 @@ def upgrade():
     sa.Column('driver_id', sa.Integer(), nullable=False),
     sa.Column('season_id', sa.Integer(), nullable=False),
     sa.Column('round', sa.Integer(), nullable=False),
-    sa.Column('points', sa.Integer(), nullable=False),
+    sa.Column('points', sa.Float(), nullable=False),
     sa.Column('position', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['driver_id'], ['drivers.id'], ),
     sa.ForeignKeyConstraint(['season_id'], ['seasons.id'], ),
