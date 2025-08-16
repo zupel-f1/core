@@ -177,3 +177,5 @@ docker
 
 # Ruff
 .ruff_cache
+
+.idea/
