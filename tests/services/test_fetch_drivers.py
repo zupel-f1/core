@@ -1,7 +1,9 @@
-import pytest
 from unittest.mock import patch
 
+import pytest
+
 from app.services import fetch_drivers
+
 
 @pytest.fixture
 def sample_driver_data():

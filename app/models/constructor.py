@@ -2,7 +2,7 @@ from app.extensions import db
 
 
 class Constructor(db.Model):
-    __tablename__ = 'constructors'
+    __tablename__ = "constructors"
 
     id = db.Column(db.Integer, primary_key=True)
     external_id = db.Column(db.String(255), nullable=False)

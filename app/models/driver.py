@@ -2,7 +2,7 @@ from app.extensions import db
 
 
 class Driver(db.Model):
-    __tablename__ = 'drivers'
+    __tablename__ = "drivers"
 
     id = db.Column(db.Integer, primary_key=True)
     external_id = db.Column(db.String(255), nullable=False)

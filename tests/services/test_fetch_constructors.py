@@ -1,7 +1,7 @@
-import pytest
 from unittest.mock import patch
 
-from app import Constructor
+import pytest
+
 from app.services import fetch_constructors
 
 
