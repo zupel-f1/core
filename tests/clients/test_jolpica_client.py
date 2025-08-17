@@ -1,5 +1,7 @@
 from urllib.parse import urlencode
+
 from app.clients.jolpica_client import fetch_from_jolpica
+
 
 def test_fetch_from_jolpica(requests_mock):
     endpoint = "2023/drivers"

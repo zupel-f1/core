@@ -2,8 +2,8 @@ from app.extensions import db
 
 
 class Circuit(db.Model):
-    __tablename__ = 'circuits'
-    
+    __tablename__ = "circuits"
+
     id = db.Column(db.Integer, primary_key=True)
     external_id = db.Column(db.String(255), nullable=False)
     url = db.Column(db.String(255), nullable=False)

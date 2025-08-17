@@ -10,10 +10,37 @@ dependencies = []
 [tool.setuptools.packages.find]
 where = ["."]
 
+
 [tool.ruff]
+# Match PEP 8 defaults
 line-length = 88
-extend-select = ["I"]
 target-version = "py312"
+
+# Enable style, naming, bug prevention, modern syntax, and import checks
+extend-select = [
+    "E",   # pycodestyle (spacing, indentation, line breaks)
+    "F",   # pyflakes (unused variables, imports, undefined names)
+    "N",   # pep8-naming (naming conventions)
+    "I",   # isort (import sorting)
+    "UP",  # pyupgrade (modern Python syntax)
+    "B",   # bugbear (common mistakes, bad practices)
+    "C4",  # flake8-comprehensions (optimize comprehensions)
+    "A",   # flake8-builtins (no shadowing Python built-ins)
+]
+
+# Automatically fix safe issues
+fix = true
+
+[tool.ruff.lint.pep8-naming]
+# Disallow bad naming, only allow short loop vars i, j, k
+ignore-names = ["i", "j", "k"]
+
+[tool.ruff.lint.isort]
+# Group imports: standard lib, third-party, local
+known-first-party = ["zupel_f1_core"]
+combine-as-imports = true
+
+
 
 [tool.pytest.ini_options]
 testpaths = [
