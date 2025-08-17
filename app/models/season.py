@@ -2,7 +2,7 @@ from app.extensions import db
 
 
 class Season(db.Model):
-    __tablename__ = 'seasons'
+    __tablename__ = "seasons"
 
     id = db.Column(db.Integer, primary_key=True)
     external_id = db.Column(db.Integer, nullable=False)

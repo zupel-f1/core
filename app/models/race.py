@@ -1,5 +1,7 @@
-from app.extensions import db
 from sqlalchemy import UniqueConstraint
+
+from app.extensions import db
+
 
 class Race(db.Model):
     __tablename__ = 'races'

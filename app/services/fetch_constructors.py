@@ -1,8 +1,8 @@
-from app.clients.jolpica_client import fetch_from_jolpica
-from app.services import MAX_LIMIT
-from app.models.constructor import Constructor
 from app import create_app
+from app.clients.jolpica_client import fetch_from_jolpica
 from app.extensions import db
+from app.models.constructor import Constructor
+from app.services import MAX_LIMIT
 
 
 def run():
@@ -16,8 +16,12 @@ def _fetch_constructors_from_jolpica():
     offset = 0
     limit = MAX_LIMIT
     while True:
-        constructors_data = fetch_from_jolpica("constructors", {"limit": limit, "offset": offset})
-        returned_constructors = constructors_data["MRData"]["ConstructorTable"]["Constructors"]
+        constructors_data = fetch_from_jolpica(
+            "constructors", {"limit": limit, "offset": offset}
+        )
+        returned_constructors = constructors_data["MRData"]["ConstructorTable"][
+            "Constructors"
+        ]
         if not returned_constructors:
             break
         all_constructors.extend(returned_constructors)
@@ -30,18 +34,22 @@ def _fetch_constructors_from_jolpica():
 def _transform_constructors_data(constructors):
     transformed = []
     for constructor in constructors:
-        transformed.append({
-            "external_id": constructor["constructorId"],
-            "url": constructor["url"],
-            "name": constructor["name"],
-            "nationality": constructor["nationality"],
-        })
+        transformed.append(
+            {
+                "external_id": constructor["constructorId"],
+                "url": constructor["url"],
+                "name": constructor["name"],
+                "nationality": constructor["nationality"],
+            }
+        )
     return transformed
 
 
 def _update_database_constructors(constructors):
     for constructor in constructors:
-        existing = Constructor.query.filter_by(external_id=constructor["external_id"]).one_or_none()
+        existing = Constructor.query.filter_by(
+            external_id=constructor["external_id"]
+        ).one_or_none()
         if not existing:
             constructor = Constructor(
                 external_id=constructor["external_id"],
