@@ -40,15 +40,6 @@ def upgrade():
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('driver_id', 'round_id', name='idx_driver_standings_on_driver_id_and_round_id')
     )
-    op.drop_table('race_driver_results')
-    op.drop_table('seasons')
-    with op.batch_alter_table('races', schema=None) as batch_op:
-        batch_op.drop_index(batch_op.f('uq_season_round'))
-
-    op.drop_table('races')
-    with op.batch_alter_table('drivers', schema=None) as batch_op:
-        batch_op.drop_index(batch_op.f('code'))
-        batch_op.drop_index(batch_op.f('permanent_number'))
 
     with op.batch_alter_table('event_results', schema=None) as batch_op:
         batch_op.create_unique_constraint('idx_event_results_on_event_id_and_driver_id', ['event_id', 'driver_id'])

@@ -55,11 +55,9 @@ def upgrade():
     )
 
     op.drop_table('race_driver_results')
-    with op.batch_alter_table('races', schema=None) as batch_op:
-        batch_op.drop_index(batch_op.f('uq_season_round'))
-
     op.drop_table('races')
-    op.drop_table('seasons')
+    op.drop_table("seasons")
+    # ### end Alembic commands ###
 
 
 def downgrade():
