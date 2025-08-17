@@ -29,7 +29,7 @@ def upgrade():
         batch_op.add_column(sa.Column('external_id', sa.String(length=255), nullable=False))
 
     with op.batch_alter_table('races', schema=None) as batch_op:
-        batch_op.create_unique_constraint('uq_season_round', ['season_id', 'round'])
+        batch_op.create_unique_constraint('idx_races_on_season_id_and_round', ['season_id', 'round'])
 
     with op.batch_alter_table('seasons', schema=None) as batch_op:
         batch_op.add_column(sa.Column('external_id', sa.Integer(), nullable=False))
