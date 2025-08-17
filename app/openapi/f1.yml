@@ -1,0 +1,19 @@
+openapi: 3.1.1
+info:
+  title: ZUPEL f1
+  description: |-
+    This is a f1 data server based on the OpenAPI 3.0 specification. You can find out more about
+    Swagger at [https://swagger.io](https://swagger.io). In this server you will be able to get
+    basic driver, constructor, f1 results data
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000/
+tags:
+  - name: drivers
+    description: Everything about drivers
+  - name: results
+    description: Driver results
+  - name: constructors
+    description: EVertything about constructors
+  - name: user
+    description: Operations about user
