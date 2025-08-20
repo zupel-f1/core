@@ -15,4 +15,4 @@ class ConstructorStanding(db.Model):
     constructor_id = db.Column(db.Integer, db.ForeignKey("constructors.id"), nullable=False)
     round_id = db.Column(db.Integer, db.ForeignKey("rounds.id"), nullable=False)
     points = db.Column(db.Float, nullable=False)
-    position = db.Column(db.Integer, nullable=False)
+    position = db.Column(db.Integer, nullable=True)

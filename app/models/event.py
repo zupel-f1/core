@@ -14,4 +14,4 @@ class Event(db.Model):
     round_id = db.Column(db.Integer, db.ForeignKey("rounds.id"), nullable=False)
     circuit_id = db.Column(db.Integer, db.ForeignKey("circuits.id"), nullable=False)
     date = db.Column(db.Date, nullable=False)
-    event_type = db.Column(db.String(255), nullable=False)
+    event_type = db.Column(db.String(50), nullable=False)

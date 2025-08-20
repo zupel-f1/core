@@ -14,4 +14,4 @@ class Round(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     year = db.Column(db.Integer, nullable=False)
     round_number = db.Column(db.Integer, nullable=False)
-    race_name = db.Column(db.String(255), nullable=False)
+    race_name = db.Column(db.String(100), nullable=False)

@@ -17,9 +17,9 @@ class EventResult(db.Model):
     constructor_id = db.Column(
         db.Integer, db.ForeignKey("constructors.id"), nullable=True
     )
-    position = db.Column(db.Integer, nullable=False)
-    time = db.Column(db.Integer, nullable=False)
+    position = db.Column(db.Integer, nullable=True)
+    time = db.Column(db.Integer, nullable=True)
     points = db.Column(db.Float, nullable=False)
     laps = db.Column(db.Integer, nullable=True)
-    status = db.Column(db.Boolean, nullable=True)
+    status = db.Column(db.String(255), nullable=False)
     start_position = db.Column(db.Integer, nullable=True)
