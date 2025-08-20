@@ -21,5 +21,5 @@ class EventResult(db.Model):
     time = db.Column(db.Integer, nullable=True)
     points = db.Column(db.Float, nullable=False)
     laps = db.Column(db.Integer, nullable=True)
-    status = db.Column(db.String(255), nullable=False)
+    status = db.Column(db.String(100), nullable=False)
     start_position = db.Column(db.Integer, nullable=True)
