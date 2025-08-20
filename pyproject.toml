@@ -40,6 +40,9 @@ ignore-names = ["i", "j", "k"]
 known-first-party = ["zupel_f1_core"]
 combine-as-imports = true
 
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
 
 
 [tool.pytest.ini_options]
