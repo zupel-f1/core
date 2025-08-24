@@ -6,14 +6,161 @@ info:
     Swagger at [https://swagger.io](https://swagger.io). In this server you will be able to get
     basic driver, constructor, f1 results data
   version: 1.0.0
+
+paths:
+  /seasons/{year}/results:
+    get:
+      tags:
+        - Seasons
+      summary: Get F1 season data
+      description: Returns races, drivers, and teams for the given year.
+      parameters:
+        - name: year
+          in: path
+          required: true
+          description: Season year (e.g., 2025)
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Season data for the given year
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SeasonData"
+        "404":
+          description: Season not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundResponse"
+              examples:
+                NotFoundExample:
+                  $ref: "#/components/examples/SeasonNotFoundExample"
+
+components:
+  schemas:
+    Race:
+      type: object
+      properties:
+        code:
+          type: string
+          example: "BHR"
+        name:
+          type: string
+          example: "Bahrain Grand Prix"
+        country:
+          type: string
+          example: "Bahrain"
+        date:
+          type: string
+          format: date
+          example: "2025-03-02"
+
+    Driver:
+      type: object
+      properties:
+        code:
+          type: string
+          example: "VER"
+        name:
+          type: string
+          example: "Max Verstappen"
+        first_name:
+          type: string
+        last_name:
+          type: string
+        number:
+          type: integer
+          example: 1
+        team:
+          type: string
+          example: "Red Bull Racing"
+        nationality:
+          type: string
+          example: "Dutch"
+        points:
+          type: array
+          items:
+            type: integer
+          example: [25, 43, 68]
+
+    Team:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Red Bull Racing"
+        nationality:
+          type: string
+          example: "Austrian"
+        points:
+          type: array
+          items:
+            type: integer
+          example: [43, 73, 116]
+
+    SeasonData:
+      type: object
+      properties:
+        year:
+          type: integer
+          example: 2025
+        races:
+          type: array
+          items:
+            $ref: "#/components/schemas/Race"
+        drivers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Driver"
+        teams:
+          type: array
+          items:
+            $ref: "#/components/schemas/Team"
+
+    NotFoundResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          enum:
+            - 404
+          example:
+            - 404
+        title:
+          type: string
+          description: Short human readable summary of the problem.
+          example:
+            - Record not found
+        detail:
+          type: string
+          description: Human readable explanation specific to the concrete occurrence of the problem.
+          example:
+            - Couldn't find Season
+
+  examples:
+    SeasonNotFoundExample:
+      value:
+        status: 404
+        title: Record not found
+        detail: Couldn't find Season
+      summary: |
+        Response for a request where the specified season could not be found.
+
 servers:
   - url: http://localhost:5000/
+
 tags:
-  - name: drivers
-    description: Everything about drivers
-  - name: results
-    description: Driver results
-  - name: constructors
-    description: EVertything about constructors
-  - name: user
-    description: Operations about user
+  - name: Seasons
+    description: F1 season schedules, drivers, and teams
+  - name: Drivers
+    description: everything about drivers
+  - name: Driver Results
+    description: driver results
+  - name: Constructors
+    description: everything about constructors
+  - name: Constructor Results
+    description: constructor results
+  - name: User
+    description: operations about user
