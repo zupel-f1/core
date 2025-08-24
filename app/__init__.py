@@ -16,8 +16,6 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
 
-    app = Flask(__name__)
-
     @app.errorhandler(Exception)
     def handle_all_errors(err):
         status = 500
