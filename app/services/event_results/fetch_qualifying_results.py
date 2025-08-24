@@ -1,28 +1,24 @@
-from app import (
-    Constructor,
-    Driver,
-    Event,
-    Round,
-    create_app,
-)
+from app import Constructor, Driver, Event, Round, create_app
 from app.clients.jolpica_client import fetch_from_jolpica
 from app.services import CURRENT_YEAR, MAX_LIMIT
 from app.services.event_results import fetch_event_results
 
 
 def run(year):
-    data = _fetch_race_results_from_jolpica(year)
-    data = _transform_race_results_data(data)
+    data = _fetch_qualifying_results_from_jolpica(year)
+    data = _transform_qualifying_results_data(data)
     fetch_event_results.update_database_event_results(data)
 
 
-def _fetch_race_results_from_jolpica(year):
+def _fetch_qualifying_results_from_jolpica(year):
     entries = []
     offset = 0
     limit = MAX_LIMIT
 
     while True:
-        data = fetch_from_jolpica(f"{year}/results", {"limit": limit, "offset": offset})
+        data = fetch_from_jolpica(
+            f"{year}/qualifying", {"limit": limit, "offset": offset}
+        )
         returned = data["MRData"]["RaceTable"]["Races"]
         if not returned:
             break
@@ -34,7 +30,7 @@ def _fetch_race_results_from_jolpica(year):
     return entries
 
 
-def _transform_race_results_data(data):
+def _transform_qualifying_results_data(data):
     transformed = []
     for entry in data:
         current_round = Round.query.filter_by(
@@ -42,34 +38,37 @@ def _transform_race_results_data(data):
             round_number=entry["round"],
         ).one_or_none()
         current_event = Event.query.filter_by(
-            event_type="race",
+            event_type="qualifying",
             round_id=current_round.id,
         ).one_or_none()
 
-        for race_result in entry["Results"]:
+        for result in entry["QualifyingResults"]:
             driver = Driver.query.filter_by(
-                external_id=race_result["Driver"]["driverId"],
+                external_id=result["Driver"]["driverId"],
             ).one_or_none()
             constructor = Constructor.query.filter_by(
-                external_id=race_result.get("Constructor", {}).get("constructorId"),
+                external_id=result.get("Constructor", {}).get("constructorId"),
             ).one_or_none()
+
+            t_str = result.get("Q3") or result.get("Q2") or result.get("Q1")
+            time = to_millis(t_str) if t_str else None
 
             transformed.append(
                 {
                     "event_id": current_event.id,
                     "driver_id": driver.id,
                     "constructor_id": constructor.id if constructor else None,
-                    "position": race_result["position"],
-                    "time": race_result.get("Time", {}).get("millis"),
-                    "points": race_result["points"],
-                    "laps": race_result.get("laps"),
-                    "status": race_result.get("status"),
-                    "start_position": race_result.get("grid"),
+                    "position": result.get("position"),
+                    "time": time,
                 }
             )
 
     return transformed
 
+def to_millis(s: str) -> int:
+    m, rest = s.split(':')
+    sec, ms = rest.split('.')
+    return int(m)*60_000 + int(sec)*1_000 + int(ms)
 
 if __name__ == "__main__":
     app = create_app()
