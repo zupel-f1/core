@@ -1,6 +1,7 @@
 from app import EventResult, create_app, db
 from app.services import CURRENT_YEAR
 from app.services.event_results import (
+    fetch_sprint_race_results,
     fetch_qualifying_results,
     fetch_race_results,
 )
@@ -9,6 +10,7 @@ from app.services.event_results import (
 def run(year):
     fetch_race_results.run(year)
     fetch_qualifying_results.run(year)
+    fetch_sprint_race_results.run(year)
 
 
 def update_database_event_results(data):
