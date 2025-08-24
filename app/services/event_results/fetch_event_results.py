@@ -1,9 +1,9 @@
 from app import EventResult, create_app, db
 from app.services import CURRENT_YEAR
 from app.services.event_results import (
-    fetch_sprint_race_results,
     fetch_qualifying_results,
     fetch_race_results,
+    fetch_sprint_race_results,
 )
 
 
@@ -15,13 +15,13 @@ def run(year):
 
 def update_database_event_results(data):
     for entry in data:
-        existing_entry = EventResult.query.filter_by(
+        existing_event = EventResult.query.filter_by(
             event_id=entry["event_id"],
             driver_id=entry["driver_id"],
         ).one_or_none()
-        if existing_entry:
+        if existing_event:
             for key, value in entry.items():
-                setattr(existing_entry, key, value)
+                setattr(existing_event, key, value)
         else:
             existing_entry = EventResult(**entry)
             db.session.add(existing_entry)

@@ -40,16 +40,16 @@ def _transform_race_results_data(data):
         current_round = Round.query.filter_by(
             year=entry["season"],
             round_number=entry["round"],
-        ).one_or_none()
+        ).one()
         current_event = Event.query.filter_by(
             event_type="race",
             round_id=current_round.id,
-        ).one_or_none()
+        ).one()
 
         for race_result in entry["Results"]:
             driver = Driver.query.filter_by(
                 external_id=race_result["Driver"]["driverId"],
-            ).one_or_none()
+            ).one()
             constructor = Constructor.query.filter_by(
                 external_id=race_result.get("Constructor", {}).get("constructorId"),
             ).one_or_none()

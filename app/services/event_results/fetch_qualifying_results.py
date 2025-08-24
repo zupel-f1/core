@@ -36,11 +36,11 @@ def _transform_qualifying_results_data(data):
         current_round = Round.query.filter_by(
             year=entry["season"],
             round_number=entry["round"],
-        ).one_or_none()
+        ).one()
         current_event = Event.query.filter_by(
             event_type="qualifying",
             round_id=current_round.id,
-        ).one_or_none()
+        ).one()
 
         for result in entry["QualifyingResults"]:
             driver = Driver.query.filter_by(
@@ -51,7 +51,7 @@ def _transform_qualifying_results_data(data):
             ).one_or_none()
 
             t_str = result.get("Q3") or result.get("Q2") or result.get("Q1")
-            time = to_millis(t_str) if t_str else None
+            time = _to_millis(t_str) if t_str else None
 
             transformed.append(
                 {
@@ -65,7 +65,7 @@ def _transform_qualifying_results_data(data):
 
     return transformed
 
-def to_millis(s: str) -> int:
+def _to_millis(s: str) -> int:
     m, rest = s.split(':')
     sec, ms = rest.split('.')
     return int(m)*60_000 + int(sec)*1_000 + int(ms)
