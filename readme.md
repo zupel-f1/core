@@ -69,7 +69,19 @@ This project is a Flask-based API for managing Formula 1 data, including seasons
     python run.py
     ```
 
+### Running production version of the app
 
+
+1. **Start the server**
+    - macOS / Linux
+    cd into core/
+    ```sh
+    gunicorn -c gunicorn.conf.py run:app
+    ```
+    Starts Gunicorn with configuration from gunicorn.conf.py. 
+    
+    (Gunicorn is not available on windows)
+   
 ### Running with Docker Compose
 
 1. **Start the services:**
